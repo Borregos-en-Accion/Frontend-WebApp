@@ -1,0 +1,82 @@
+/* Asegura que el fondo abarque todo */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #045ce8, #54158f);
+    background-size: cover;
+  }
+  
+  /* Contenedor del login */
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  /* Caja de login */
+  .login-box {
+    background: 2,3,4,0;
+    padding: 20px;
+    border-radius: 10px;
+    
+    width: 320px;
+    text-align: center;
+  }
+  
+  /* Logo con tamaño ajustado */
+  .logo {
+    width: 50%;  /* Ajusta este valor según el tamaño deseado */
+    margin-bottom: 15px;
+  }
+  
+  /* Títulos */
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .subtitle {
+    background: rgb(190, 63, 63);
+    color: white;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  
+  /* Inputs */
+  .input-container {
+    margin-top: 5px;
+  }
+  
+  .input-field {
+    background-color: #ffffff;
+    width: 93%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  /* Botón */
+  .login-button {
+    width: 100%;
+    background: #3b82f6;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .login-button:hover {
+    background: #1e40af;
+  }
+  
