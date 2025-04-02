@@ -1,0 +1,80 @@
+/* Asegura que el fondo abarque todo */
+
+.container {
+  background: linear-gradient(
+    180deg,
+    rgba(4, 92, 232, 1) 0%,
+    rgba(84, 21, 143, 1) 100%
+  );
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.login_box {
+  background: rgba(255, 255, 255, 0);
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  transition: filter 300ms;
+  width: 100%;
+  margin: 0 auto 20px;
+  display: block;
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.input_container {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #e0e0e0;
+  text-align: left;
+}
+
+.input_field {
+  width: 93%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Botón */
+.login_button {
+  width: 100%;
+  padding: 10px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login_button:hover {
+  background: #1e40af;
+}
