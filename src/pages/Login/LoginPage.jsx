@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../../styles/Login.module.css";
+import styles from "./Login.module.css";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);

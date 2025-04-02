@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
+import styles from "./Sport.module.css";
 
 export default function SportsPage() {
   return (
