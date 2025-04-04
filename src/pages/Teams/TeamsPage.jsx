@@ -38,7 +38,7 @@ export default function TeamsPage() {
   // Función que elimina un equipo de "leftTeams" basándose en su índice
   const handleRemoveLeft = (indexToRemove) => {
     setLeftTeams((prev) => { // Actualiza el estado "leftTeams" usando una función que recibe como parámetro el estado anterior de la variable (array de equipos)
-      const newTeams = prev.filter((_, index) => index !== indexToRemove); // Filtra el array y crea uno nuevo sin el elemento en la posición "indexToRemove"
+      const newTeams = prev.filter((_, index) => index !== indexToRemove); // Filtra el array y crea uno nuevo sin el elemento esa la posición "indexToRemove"
       localStorage.setItem("leftTeams", JSON.stringify(newTeams)); // Guarda el nuevo array en localStorage (convertido a JSON)
       return newTeams;
     });
