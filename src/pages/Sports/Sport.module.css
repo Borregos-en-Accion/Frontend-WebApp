@@ -1,0 +1,114 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 10px;
+    margin-top: 0px;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #001f5b;
+}
+
+.sportsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 30px; 
+    max-width: 900px; 
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.sportCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    text-align: center;
+    margin : 40px;
+}
+
+.sportCard img {
+    width: 80px;
+    height: 80px;
+}
+
+.sportName {
+    margin-top: 8px;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.closeButton {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.resetButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #001f5b;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.resetButton:hover {
+    background-color: #141924;
+}
+
+/* Media Query para dispositivos de tamaño mediano (768px o menos) */
+@media (max-width: 768px) {
+    .sportsGrid {
+        grid-template-columns: repeat(3, 1fr);  /* Dos columnas en pantallas medianas */
+    }
+
+    .sportCard {
+        margin: 20px;  /* Ajusta el margen de las tarjetas */
+    }
+
+    .sportName {
+        font-size: 1.2rem;  /* Reduce el tamaño de la fuente de los nombres de los deportes */
+    }
+
+    .title {
+        font-size: 1.6rem;  /* Ajusta el tamaño del título */
+    }
+
+    .resetButton {
+        font-size: 0.9rem;  /* Ajusta el tamaño del botón */
+    }
+}
+
+/* Media Query para dispositivos de tamaño pequeño (480px o menos) */
+@media (max-width: 480px) {
+    .sportsGrid {
+        grid-template-columns: repeat(2, 1fr);  /* Una columna en pantallas pequeñas */
+    }
+
+    .sportCard {
+        margin: 10px;  /* Ajusta el margen de las tarjetas */
+    }
+
+    .sportName {
+        font-size: 1rem;  /* Reduce el tamaño de la fuente de los nombres de los deportes */
+    }
+
+    .title {
+        font-size: 1.4rem;  /* Ajusta el tamaño del título */
+    }
+
+    .resetButton {
+        font-size: 0.8rem;  /* Ajusta el tamaño del botón */
+    }
+}
