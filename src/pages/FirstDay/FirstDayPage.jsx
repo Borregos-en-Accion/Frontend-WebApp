@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
+import Table from "../../components/Table";
 import styles from "./FirstDay.module.css";
 
 export default function FirstDayPage() {
@@ -11,6 +12,8 @@ export default function FirstDayPage() {
         <h1>Día 1</h1>
         <p>Bienvenido al primer día de la competencia.</p>
         <p>¡Prepárate para la emoción!</p>
+       <Table />
+      
       </div>
     </>
   );
