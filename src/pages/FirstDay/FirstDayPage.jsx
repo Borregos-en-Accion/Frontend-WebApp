@@ -7,7 +7,6 @@ export default function FirstDayPage() {
   return (
     <>
       <Navbar />
-
       <div className={styles.container}>
         {/* Título centrado */}
         <h1 className={styles.title}>Día 1: Fútbol</h1>
@@ -25,7 +24,6 @@ export default function FirstDayPage() {
         <div className={styles.tableContainer}>
           <Table />
         </div>
-      </div>
     </>
   );
 }
