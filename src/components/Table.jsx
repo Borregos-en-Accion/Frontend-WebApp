@@ -334,7 +334,7 @@ export default function Table() {
         </div>
       </form>
 
-      <table className={styles.table}>
+      {/* <table className={styles.table}>
         <thead>
           <tr className={styles.table_header_row}>
             <th className={styles.table_header}>Grupo</th>
@@ -376,10 +376,10 @@ export default function Table() {
             </tr>
           )}
         </tbody>
-      </table>
+      </table> */}
 
       {/* ====================================================================== */}
-      <h2 className={styles.title}>Torneo de Fubol - Varonil</h2>
+      <h2 className={styles.title}>Torneo de Fútbol - Varonil</h2>
 
       <table className={styles.table}>
         <thead>
@@ -400,6 +400,539 @@ export default function Table() {
               .filter(
                 (match) =>
                   match.sport === "Futbol" && match.branch === "Varonil"
+              )
+              .map((match) => (
+                <tr key={match._id} className={styles.table_row}>
+                  <td className={styles.table_cell}>{match.division}</td>
+                  <td className={styles.table_cell}>{match.teamOneName}</td>
+                  <td className={styles.table_cell}>vs</td>
+                  <td className={styles.table_cell}>{match.teamTwoName}</td>
+                  <td className={styles.table_cell}>{match.place}</td>
+                  <td className={styles.table_cell}>{match.startedAt}</td>
+                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                  <td className={styles.table_cell}>
+                    <button
+                      onClick={() => handleEditClick(match)}
+                      className={styles.form_button}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td colSpan="8" className={styles.noMatches}>
+                No hay partidos disponibles.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+
+      {/* ====================================================================== */}
+      <br></br>
+      <h2 className={styles.title}>Torneo de Fútbol - Femenil</h2>
+
+      <table className={styles.table}>
+        <thead>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {matches.length > 0 ? (
+            matches
+              .filter(
+                (match) =>
+                  match.sport === "Futbol" && match.branch === "Femenil"
+              )
+              .map((match) => (
+                <tr key={match._id} className={styles.table_row}>
+                  <td className={styles.table_cell}>{match.division}</td>
+                  <td className={styles.table_cell}>{match.teamOneName}</td>
+                  <td className={styles.table_cell}>vs</td>
+                  <td className={styles.table_cell}>{match.teamTwoName}</td>
+                  <td className={styles.table_cell}>{match.place}</td>
+                  <td className={styles.table_cell}>{match.startedAt}</td>
+                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                  <td className={styles.table_cell}>
+                    <button
+                      onClick={() => handleEditClick(match)}
+                      className={styles.form_button}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td colSpan="8" className={styles.noMatches}>
+                No hay partidos disponibles.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* ====================================================================== */}
+      <br></br>
+      <h2 className={styles.title}>Torneo de Basquetbol - Varonil</h2>
+
+      <table className={styles.table}>
+        <thead>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {matches.length > 0 ? (
+            matches
+              .filter(
+                (match) =>
+                  match.sport === "Basquetbol" && match.branch === "Varonil"
+              )
+              .map((match) => (
+                <tr key={match._id} className={styles.table_row}>
+                  <td className={styles.table_cell}>{match.division}</td>
+                  <td className={styles.table_cell}>{match.teamOneName}</td>
+                  <td className={styles.table_cell}>vs</td>
+                  <td className={styles.table_cell}>{match.teamTwoName}</td>
+                  <td className={styles.table_cell}>{match.place}</td>
+                  <td className={styles.table_cell}>{match.startedAt}</td>
+                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                  <td className={styles.table_cell}>
+                    <button
+                      onClick={() => handleEditClick(match)}
+                      className={styles.form_button}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td colSpan="8" className={styles.noMatches}>
+                No hay partidos disponibles.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* ====================================================================== */}
+      <br></br>
+      <h2 className={styles.title}>Torneo de Basquetbol - Femenil</h2>
+
+      <table className={styles.table}>
+        <thead>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {matches.length > 0 ? (
+            matches
+              .filter(
+                (match) =>
+                  match.sport === "Basquetbol" && match.branch === "Femenil"
+              )
+              .map((match) => (
+                <tr key={match._id} className={styles.table_row}>
+                  <td className={styles.table_cell}>{match.division}</td>
+                  <td className={styles.table_cell}>{match.teamOneName}</td>
+                  <td className={styles.table_cell}>vs</td>
+                  <td className={styles.table_cell}>{match.teamTwoName}</td>
+                  <td className={styles.table_cell}>{match.place}</td>
+                  <td className={styles.table_cell}>{match.startedAt}</td>
+                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                  <td className={styles.table_cell}>
+                    <button
+                      onClick={() => handleEditClick(match)}
+                      className={styles.form_button}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td colSpan="8" className={styles.noMatches}>
+                No hay partidos disponibles.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* ====================================================================== */}
+      <br></br>
+      <h2 className={styles.title}>Torneo de Voleibol - Mixto</h2>
+
+      <table className={styles.table}>
+        <thead>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {matches.length > 0 ? (
+            matches
+              .filter(
+                (match) =>
+                  match.sport === "Voleibol" && match.branch === "Mixto"
+              )
+              .map((match) => (
+                <tr key={match._id} className={styles.table_row}>
+                  <td className={styles.table_cell}>{match.division}</td>
+                  <td className={styles.table_cell}>{match.teamOneName}</td>
+                  <td className={styles.table_cell}>vs</td>
+                  <td className={styles.table_cell}>{match.teamTwoName}</td>
+                  <td className={styles.table_cell}>{match.place}</td>
+                  <td className={styles.table_cell}>{match.startedAt}</td>
+                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                  <td className={styles.table_cell}>
+                    <button
+                      onClick={() => handleEditClick(match)}
+                      className={styles.form_button}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td colSpan="8" className={styles.noMatches}>
+                No hay partidos disponibles.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* ====================================================================== */}
+      <br></br>
+      <h2 className={styles.title}>Torneo de Tennis - Mixto</h2>
+
+      <table className={styles.table}>
+        <thead>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {matches.length > 0 ? (
+            matches
+              .filter(
+                (match) =>
+                  match.sport === "Tennis" && match.branch === "Mixto"
+              )
+              .map((match) => (
+                <tr key={match._id} className={styles.table_row}>
+                  <td className={styles.table_cell}>{match.division}</td>
+                  <td className={styles.table_cell}>{match.teamOneName}</td>
+                  <td className={styles.table_cell}>vs</td>
+                  <td className={styles.table_cell}>{match.teamTwoName}</td>
+                  <td className={styles.table_cell}>{match.place}</td>
+                  <td className={styles.table_cell}>{match.startedAt}</td>
+                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                  <td className={styles.table_cell}>
+                    <button
+                      onClick={() => handleEditClick(match)}
+                      className={styles.form_button}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td colSpan="8" className={styles.noMatches}>
+                No hay partidos disponibles.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* ====================================================================== */}
+           <br></br>
+      <h2 className={styles.title}>Torneo de Jalón de Cuerda - Mixto</h2>
+
+      <table className={styles.table}>
+        <thead>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {matches.length > 0 ? (
+            matches
+              .filter(
+                (match) =>
+                  match.sport === "Jalon de Cuerda" && match.branch === "Mixto"
+              )
+              .map((match) => (
+                <tr key={match._id} className={styles.table_row}>
+                  <td className={styles.table_cell}>{match.division}</td>
+                  <td className={styles.table_cell}>{match.teamOneName}</td>
+                  <td className={styles.table_cell}>vs</td>
+                  <td className={styles.table_cell}>{match.teamTwoName}</td>
+                  <td className={styles.table_cell}>{match.place}</td>
+                  <td className={styles.table_cell}>{match.startedAt}</td>
+                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                  <td className={styles.table_cell}>
+                    <button
+                      onClick={() => handleEditClick(match)}
+                      className={styles.form_button}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td colSpan="8" className={styles.noMatches}>
+                No hay partidos disponibles.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* ====================================================================== */}
+            <br></br>
+      <h2 className={styles.title}>Torneo de Quemados - Mixto</h2>
+
+      <table className={styles.table}>
+        <thead>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {matches.length > 0 ? (
+            matches
+              .filter(
+                (match) =>
+                  match.sport === "Quemados" && match.branch === "Mixto"
+              )
+              .map((match) => (
+                <tr key={match._id} className={styles.table_row}>
+                  <td className={styles.table_cell}>{match.division}</td>
+                  <td className={styles.table_cell}>{match.teamOneName}</td>
+                  <td className={styles.table_cell}>vs</td>
+                  <td className={styles.table_cell}>{match.teamTwoName}</td>
+                  <td className={styles.table_cell}>{match.place}</td>
+                  <td className={styles.table_cell}>{match.startedAt}</td>
+                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                  <td className={styles.table_cell}>
+                    <button
+                      onClick={() => handleEditClick(match)}
+                      className={styles.form_button}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td colSpan="8" className={styles.noMatches}>
+                No hay partidos disponibles.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+            {/* ====================================================================== */}
+            <br></br>
+      <h2 className={styles.title}>Torneo de Relevos - Mixto</h2>
+
+      <table className={styles.table}>
+        <thead>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {matches.length > 0 ? (
+            matches
+              .filter(
+                (match) =>
+                  match.sport === "Relevos" && match.branch === "Mixto"
+              )
+              .map((match) => (
+                <tr key={match._id} className={styles.table_row}>
+                  <td className={styles.table_cell}>{match.division}</td>
+                  <td className={styles.table_cell}>{match.teamOneName}</td>
+                  <td className={styles.table_cell}>vs</td>
+                  <td className={styles.table_cell}>{match.teamTwoName}</td>
+                  <td className={styles.table_cell}>{match.place}</td>
+                  <td className={styles.table_cell}>{match.startedAt}</td>
+                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                  <td className={styles.table_cell}>
+                    <button
+                      onClick={() => handleEditClick(match)}
+                      className={styles.form_button}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td colSpan="8" className={styles.noMatches}>
+                No hay partidos disponibles.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+
+            {/* ====================================================================== */}
+            <br></br>
+      <h2 className={styles.title}>Torneo de Mario Kart - Mixto</h2>
+
+      <table className={styles.table}>
+        <thead>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {matches.length > 0 ? (
+            matches
+              .filter(
+                (match) =>
+                  match.sport === "Mario Kart" && match.branch === "Mixto"
+              )
+              .map((match) => (
+                <tr key={match._id} className={styles.table_row}>
+                  <td className={styles.table_cell}>{match.division}</td>
+                  <td className={styles.table_cell}>{match.teamOneName}</td>
+                  <td className={styles.table_cell}>vs</td>
+                  <td className={styles.table_cell}>{match.teamTwoName}</td>
+                  <td className={styles.table_cell}>{match.place}</td>
+                  <td className={styles.table_cell}>{match.startedAt}</td>
+                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                  <td className={styles.table_cell}>
+                    <button
+                      onClick={() => handleEditClick(match)}
+                      className={styles.form_button}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td colSpan="8" className={styles.noMatches}>
+                No hay partidos disponibles.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+
+            {/* ====================================================================== */}
+            <br></br>
+      <h2 className={styles.title}>Torneo de Just Dance - Mixto</h2>
+
+      <table className={styles.table}>
+        <thead>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {matches.length > 0 ? (
+            matches
+              .filter(
+                (match) =>
+                  match.sport === "Just Dance" && match.branch === "Mixto"
               )
               .map((match) => (
                 <tr key={match._id} className={styles.table_row}>
