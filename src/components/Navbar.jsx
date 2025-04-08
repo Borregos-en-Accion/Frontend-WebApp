@@ -18,6 +18,14 @@ export default function Navbar() {
       <ul className={styles.nav_links}>
         <li>
           <a
+            href="/home"
+            className={currentPath === "/home" ? styles.active_link : ""}
+          >
+            Home
+          </a>
+        </li>
+        <li>
+          <a
             href="/equipos"
             className={currentPath === "/equipos" ? styles.active_link : ""}
           >
