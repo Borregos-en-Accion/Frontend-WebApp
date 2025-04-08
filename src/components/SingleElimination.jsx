@@ -46,7 +46,6 @@ const GlootTheme = createTheme({
   svgBackground: "#FFFFFF", // Fondo completamente blanco
 });
 
-
 // Filtramos el bracket para solo incluir semifinales y final
 const filteredBracket = [
   {

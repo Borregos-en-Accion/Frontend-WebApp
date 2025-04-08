@@ -2,10 +2,47 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/Table.module.css";
 const API_URL = import.meta.env.VITE_API_URL;
 
+const DIVISIONS = [
+  "Prepa",
+  "Grupo A",
+  "Grupo B",
+  "Grupo C",
+  "Semis Prepa",
+  "Final Prepa",
+  "Eliminatoria Pro",
+  "Cuartos Pro",
+  "Semis Pro",
+  "Final Pro",
+];
+
+const BRANCHES = ["Femenil", "Varonil", "Mixto"];
+
+const PLACES = [
+  "Futbol 1",
+  "Futbol 2",
+  "Futbol 3",
+  "Domo 1",
+  "Domo 2",
+  "Domo 3",
+  "Domo 4",
+  "Arena 1",
+  "Arena 2",
+  "E-Sports",
+  "Tenis 1",
+  "Tenis 2",
+  "Relevos",
+];
+
 export default function Table() {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [editingMatch, setEditingMatch] = useState(null);
+  const [sports, setSports] = useState([]);
+  const [teams, setTeams] = useState([]);
+  const [divisions, setDivisions] = useState(DIVISIONS);
+  const [branches, setBranches] = useState(BRANCHES);
+  const [places, setPlaces] = useState(PLACES);
 
   const [formData, setFormData] = useState({
     sport: "",
@@ -19,20 +56,56 @@ export default function Table() {
   });
 
   useEffect(() => {
+    fetchSports();
+    fetchTeams();
     fetchMatches();
   }, []);
 
-  const fetchMatches = () => {
-    fetch(`${API_URL}/matches`)
-      .then((res) => res.json())
-      .then((data) => {
-        setMatches(data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error al obtener los partidos:", error);
-        setLoading(false);
-      });
+  const fetchMatches = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_URL}/matches`);
+      if (!response.ok) throw new Error("Error al obtener los partidos");
+      const data = await response.json();
+      setMatches(data.data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchSports = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_URL}/sports`);
+      if (!response.ok) throw new Error("Error al obtener los deportes");
+      const data = await response.json();
+      const sportsNames = data.data.map((sport) => sport.name);
+      setSports(sportsNames);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchTeams = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_URL}/teams`);
+      if (!response.ok) throw new Error("Error al obtener los equipos");
+      const data = await response.json();
+      const teamsNames = data.data.map((team) => team.name);
+      setTeams(teamsNames);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -40,35 +113,32 @@ export default function Table() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
+    setError(null);
+
     const method = editingMatch ? "PATCH" : "POST";
+
     const url = editingMatch
       ? `${API_URL}/matches/${editingMatch._id}`
       : `${API_URL}/matches`;
 
-    fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        fetchMatches();
-        setFormData({
-          sport: match.sport || "",
-          division: match.division || "",
-          teamOneName: match.teamOneName || "",
-          teamTwoName: match.teamTwoName || "",
-          branch: match.branch || "",
-          place: match.place || "",
-          startedAt: match.startedAt || "",
-          whoWon: match.whoWon || "",
-        });
-        
-        setEditingMatch(null);
-      })
-      .catch((err) => console.error("Error guardando partido:", err));
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) throw new Error("Error al guardar el partido");
+      await fetchMatches();
+      resetForm();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleEditClick = (match) => {
@@ -76,59 +146,283 @@ export default function Table() {
     setEditingMatch(match);
   };
 
-  if (loading) return <p>Cargando partidos...</p>;
+  const resetForm = () => {
+    setFormData({
+      sport: "",
+      division: "",
+      teamOneName: "",
+      teamTwoName: "",
+      branch: "",
+      place: "",
+      startedAt: "",
+      whoWon: "",
+    });
+    setEditingMatch(null);
+  };
+
+  if (loading) return <p className={styles.loading}>Cargando partidos...</p>;
+  if (error) return <p className={styles.error}>Error: {error}</p>;
 
   return (
-    <div>
-      <h2>{editingMatch ? "Editar Partido" : "Agregar Partido"}</h2>
-      <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
-        <input name="sport" placeholder="Deporte" value={formData.sport} onChange={handleChange} required />
-        <input name="division" placeholder="División" value={formData.division} onChange={handleChange} required />
-        <input name="teamOneName" placeholder="Equipo 1" value={formData.teamOneName} onChange={handleChange} required />
-        <input name="teamTwoName" placeholder="Equipo 2" value={formData.teamTwoName} onChange={handleChange} required />
-        <input name="branch" placeholder="Rama" value={formData.branch} onChange={handleChange} required />
-        <input name="place" placeholder="Cancha" value={formData.place} onChange={handleChange} required />
-        <input type="time" name="startedAt" value={formData.startedAt} onChange={handleChange} required />
-        <input name="whoWon" placeholder="Ganador" value={formData.whoWon} onChange={handleChange} />
-        <button type="submit" disabled={loading}>
-  {editingMatch ? "Actualizar" : "Agregar"}
-</button>
+    <div className={styles.container}>
+      <h2 className={styles.title}>
+        {editingMatch ? "Editar Partido" : "Agregar Partido"}
+      </h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <select
+          name="sport"
+          value={formData.sport}
+          onChange={handleChange}
+          required
+          aria-label="Deporte"
+          className={styles.form_input}
+        >
+          <option value="" disabled>
+            Selecciona un deporte
+          </option>
+          {sports.map((sport, index) => (
+            <option key={index} value={sport}>
+              {sport}
+            </option>
+          ))}
+        </select>
 
+        <select
+          name="division"
+          value={formData.division}
+          onChange={handleChange}
+          required
+          aria-label="Deporte"
+          className={styles.form_input}
+        >
+          <option value="" disabled>
+            Selecciona una división
+          </option>
+          {divisions.map((division, index) => (
+            <option key={index} value={division}>
+              {division}
+            </option>
+          ))}
+        </select>
+
+        <select
+          name="teamOneName"
+          value={formData.teamOneName}
+          onChange={handleChange}
+          required
+          aria-label="Equipo 1"
+          className={styles.form_input}
+        >
+          <option value="" disabled>
+            Selecciona el Equipo 1
+          </option>
+          {teams.map((team, index) => (
+            <option key={index} value={team}>
+              {team}
+            </option>
+          ))}
+        </select>
+
+        <select
+          name="teamTwoName"
+          value={formData.teamTwoName}
+          onChange={handleChange}
+          required
+          aria-label="Equipo 2"
+          className={styles.form_input}
+        >
+          <option value="" disabled>
+            Selecciona el Equipo 2
+          </option>
+          {teams.map((team, index) => (
+            <option key={index} value={team}>
+              {team}
+            </option>
+          ))}
+        </select>
+
+        <select
+          name="branch"
+          value={formData.branch}
+          onChange={handleChange}
+          required
+          aria-label="Rama"
+          className={styles.form_input}
+        >
+          <option value="" disabled>
+            Selecciona la rama
+          </option>
+          {branches.map((branch, index) => (
+            <option key={index} value={branch}>
+              {branch}
+            </option>
+          ))}
+        </select>
+
+        <select
+          name="place"
+          value={formData.place}
+          onChange={handleChange}
+          required
+          aria-label="Cancha"
+          className={styles.form_input}
+        >
+          <option value="" disabled>
+            Selecciona la Cancha
+          </option>
+          {places.map((place, index) => (
+            <option key={index} value={place}>
+              {place}
+            </option>
+          ))}
+        </select>
+
+        <input
+          type="time"
+          name="startedAt"
+          value={formData.startedAt}
+          onChange={handleChange}
+          required
+          aria-label="Hora de inicio"
+          className={styles.form_input}
+        />
+
+        {editingMatch ? (
+          <select
+            name="whoWon"
+            value={formData.whoWon}
+            onChange={handleChange}
+            required
+            aria-label="Ganador"
+            className={styles.form_input}
+          >
+            <option value="" disabled>
+              Selecciona el ganador
+            </option>
+            <option value={formData.teamOneName}>{formData.teamOneName}</option>
+            <option value={formData.teamTwoName}>{formData.teamTwoName}</option>
+          </select>
+        ) : (
+          <input
+            name="whoWon"
+            placeholder="Ganador"
+            value={formData.whoWon}
+            onChange={handleChange}
+            aria-label="Ganador"
+            className={styles.form_input}
+            disabled
+          />
+        )}
+
+        <div className={styles.form_button_group}>
+          <button
+            type="submit"
+            disabled={loading}
+            className={styles.form_button}
+          >
+            {editingMatch ? "Actualizar" : "Agregar"}
+          </button>
+          {editingMatch && (
+            <button
+              type="button"
+              onClick={resetForm}
+              className={`${styles.form_button} ${styles.form_button_cancel}`}
+            >
+              Cancelar
+            </button>
+          )}
+        </div>
       </form>
 
-      <table className={`${styles.blueTable}`}>
+      <table className={styles.table}>
         <thead>
-          <tr>
-            <th>Grupo</th>
-            <th>Equipo 1</th>
-            <th>vs</th>
-            <th>Equipo 2</th>
-            <th>Cancha</th>
-            <th>Hora</th>
-            <th>Ganador</th>
-            <th>Acciones</th>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {matches.length > 0 ? (
-            matches.map((match, index) => (
-              <tr key={match._id}>
-
-                <td>{match.division}</td>
-                <td>{match.teamOneName}</td>
-                <td>vs</td>
-                <td>{match.teamTwoName}</td>
-                <td>{match.place}</td>
-                <td>{match.startedAt}</td>
-                <td>{match.whoWon ?? "..."}</td>
-                <td>
-                  <button onClick={() => handleEditClick(match)}>Editar</button>
+            matches.map((match) => (
+              <tr key={match._id} className={styles.table_row}>
+                <td className={styles.table_cell}>{match.division}</td>
+                <td className={styles.table_cell}>{match.teamOneName}</td>
+                <td className={styles.table_cell}>vs</td>
+                <td className={styles.table_cell}>{match.teamTwoName}</td>
+                <td className={styles.table_cell}>{match.place}</td>
+                <td className={styles.table_cell}>{match.startedAt}</td>
+                <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                <td className={styles.table_cell}>
+                  <button
+                    onClick={() => handleEditClick(match)}
+                    className={styles.form_button}
+                  >
+                    Editar
+                  </button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="8" style={{ textAlign: "center" }}>
+              <td colSpan="8" className={styles.noMatches}>
+                No hay partidos disponibles.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* ====================================================================== */}
+      <h2 className={styles.title}>Torneo de Fubol - Varonil</h2>
+
+      <table className={styles.table}>
+        <thead>
+          <tr className={styles.table_header_row}>
+            <th className={styles.table_header}>Grupo</th>
+            <th className={styles.table_header}>Equipo 1</th>
+            <th className={styles.table_header}>vs</th>
+            <th className={styles.table_header}>Equipo 2</th>
+            <th className={styles.table_header}>Cancha</th>
+            <th className={styles.table_header}>Hora</th>
+            <th className={styles.table_header}>Ganador</th>
+            <th className={styles.table_header}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {matches.length > 0 ? (
+            matches
+              .filter(
+                (match) =>
+                  match.sport === "Futbol" && match.branch === "Varonil"
+              )
+              .map((match) => (
+                <tr key={match._id} className={styles.table_row}>
+                  <td className={styles.table_cell}>{match.division}</td>
+                  <td className={styles.table_cell}>{match.teamOneName}</td>
+                  <td className={styles.table_cell}>vs</td>
+                  <td className={styles.table_cell}>{match.teamTwoName}</td>
+                  <td className={styles.table_cell}>{match.place}</td>
+                  <td className={styles.table_cell}>{match.startedAt}</td>
+                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
+                  <td className={styles.table_cell}>
+                    <button
+                      onClick={() => handleEditClick(match)}
+                      className={styles.form_button}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td colSpan="8" className={styles.noMatches}>
                 No hay partidos disponibles.
               </td>
             </tr>
