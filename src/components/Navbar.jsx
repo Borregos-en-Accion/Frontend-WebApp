@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../styles/Navbar.module.css";
+import borregos_label from "../assets/borregos_label.png";
 
 export default function Navbar() {
   const currentPath = window.location.pathname;
@@ -15,7 +16,7 @@ export default function Navbar() {
       {/* Lado izquierdo */}
       <div className={styles.logo_container}>
         <img
-          src="src/assets/borregos_label.png"
+          src={borregos_label}
           alt="Borregos Label"
           className={styles.logo}
         />

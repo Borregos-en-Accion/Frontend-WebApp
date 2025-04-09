@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
+import logo from '../../assets/logo.png';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -50,7 +51,7 @@ export default function LoginPage() {
     <main className={`${styles.container}`}>
       <div className={`${styles.login_box}`}>
         <img
-          src="src/assets/logo_chico.png"
+          src={logo}
           alt="Borregos en Accion Logo"
           className={`${styles.logo}`}
         />
