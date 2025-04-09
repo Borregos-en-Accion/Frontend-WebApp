@@ -1,5 +1,4 @@
 {
-  "homepage": "https://Dan-FC.github.io/borregos-web-app",
   "name": "borregos-web-app",
   "private": true,
   "version": "0.0.0",
@@ -9,7 +8,6 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
