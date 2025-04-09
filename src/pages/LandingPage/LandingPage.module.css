@@ -1,0 +1,136 @@
+.borregosSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 6rem 6rem 4rem 4rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background-image: url('../../assets/FondoDegradado.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 78vh
+  }
+  
+  .borregosText {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    font-size: 1.2rem;
+    color: #ffffff;
+    line-height: 1.6;
+    padding:  2rem 2rem 3rem;
+  }
+  
+  .borregosText em {
+    font-weight: bold;
+    font-style: normal;
+    color: #003366;
+  }
+  
+  .borregosMapa {
+    flex: 1;
+    min-width: 400px;
+    max-width: 700px;
+    text-align: center;
+  }
+  
+  .borregosMapa h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    color: #003366;
+    text-shadow: 2px 2px 5px rgb(255, 255, 255);
+  }
+  
+  .borregosMapa img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .borregosTitulo {
+    width: 100%;
+    text-align: center;
+    font-size: 2.8rem;
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    margin-top: -3.5rem;
+  }
+  
+  .textBox {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    color: #1a1a1a;
+  }
+  
+  
+  @media (max-width: 1024px) {
+    .borregosSection {
+      padding: 3rem 2rem;
+      gap: 1.5rem;
+    }
+  
+    .borregosText {
+      font-size: 1.1rem;
+      padding: 2rem 1.5rem;
+      max-width: 100%;
+    }
+  
+    .borregosMapa {
+      max-width: 100%;
+    }
+  
+    .borregosMapa h3 {
+      font-size: 1.4rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .borregosSection {
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1.5rem;
+    }
+  
+    .borregosText {
+      text-align: center;
+      font-size: 1rem;
+      padding: 1.5rem 1rem;
+    }
+  
+    .borregosMapa {
+      margin-top: 2rem;
+      max-width: 95vw;
+    }
+  
+    .borregosMapa h3 {
+      font-size: 1.2rem;
+    }
+  
+    .borregosMapa img {
+      border-radius: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .borregosText {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+  
+    .borregosMapa h3 {
+      font-size: 1.1rem;
+    }
+  
+    .borregosMapa img {
+      width: 100%;
+      max-width: 100%;
+    }
+  
+    .borregosSection {
+      padding: 1.5rem 1rem;
+    }
+  } 

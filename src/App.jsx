@@ -6,6 +6,7 @@ import FirstDay from "./pages/FirstDay/FirstDayPage";
 import SecondDay from "./pages/SecondDay/SecondDayPage";
 import Sports from "./pages/Sports/SportsPage";
 import HomePage from "./pages/Home/HomePage";
+import LandingPage from "./pages/LandingPage/LandingPage";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
 
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/home" element={<LandingPage />} />
         <Route path="/equipos" element={<TeamsPage />} />
         <Route path="/primer_dia" element={<FirstDay />} />
         <Route path="/segundo_dia" element={<SecondDay />} />

@@ -1,0 +1,69 @@
+body {
+  background-color: #f0f4ff;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background-color: #001f5b;
+  /* Color de fondo del encabezado */
+  color: white;
+  /* Color del texto del encabezado */
+  padding: 20px;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Centrar contenido */
+  text-align: center;
+  padding: 20px;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #001f5b;
+  margin-bottom: 1rem;
+}
+
+.category {
+  font-size: 1.5rem;
+  color: #00133a;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  color: #000000;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  max-width: 600px;
+  /* Controlar el ancho */
+}
+
+.text {
+  font-size: 1rem;
+  color: #000000;
+  margin-bottom: 1rem;
+  max-width: 600px;
+  /* Controlar el ancho */
+}
+
+.tableContainer {
+  width: 90%;
+  /* Ajustar la anchura de la tabla */
+  max-width: 800px;
+  /* No permitir que se haga demasiado ancha */
+  overflow-x: auto;
+  /* Permitir desplazamiento horizontal si es necesario */
+}

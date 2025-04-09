@@ -1,16 +1,25 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
+import Table from "../../components/Table";
 import styles from "./FirstDay.module.css";
 
 export default function FirstDayPage() {
   return (
     <>
       <Navbar />
+      <div className={styles.container}>
+        {/* Título centrado */}
+        <h1 className={styles.title}>Borregos en Acción: Primer Dia</h1>
 
-      <div>
-        <h1>Día 1</h1>
-        <p>Bienvenido al primer día de la competencia.</p>
-        <p>¡Prepárate para la emoción!</p>
+        {/* Subtítulo centrado */}
+        <div className={styles.subtitle}>
+          <p>Bienvenidos al primer día de Borregos en Acción.</p>
+        </div>
+
+        {/* Contenedor para ajustar la tabla */}
+        <div className={styles.tableContainer}>
+          <Table day={"1"} />
+        </div>
       </div>
     </>
   );
