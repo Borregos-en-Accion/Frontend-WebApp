@@ -9,18 +9,16 @@ export default function FirstDayPage() {
       <Navbar />
       <div className={styles.container}>
         {/* Título centrado */}
-        <h1 className={styles.title}>Borregos en Acción</h1>
+        <h1 className={styles.title}>Borregos en Acción: Primer Dia</h1>
 
         {/* Subtítulo centrado */}
         <div className={styles.subtitle}>
- 
           <p>Bienvenidos al primer día de Borregos en Acción.</p>
-
         </div>
 
         {/* Contenedor para ajustar la tabla */}
         <div className={styles.tableContainer}>
-          <Table />
+          <Table day={"1"} />
         </div>
       </div>
     </>

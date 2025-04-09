@@ -1,3 +1,12 @@
+.title{
+  font-size: 24px;
+  font-weight: bold;
+  color: #002a7d;
+  text-align: center;
+  margin-top: 1rem;
+  
+}
+
 .table {
   border: 1px solid #001f5b;
   background-color: #ffffff;
@@ -7,6 +16,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 1rem;
 }
+
 
 .table_cell,
 .table_header {

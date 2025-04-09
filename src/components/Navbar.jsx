@@ -3,6 +3,12 @@ import styles from "../styles/Navbar.module.css";
 
 export default function Navbar() {
   const currentPath = window.location.pathname;
+  const role = localStorage.getItem("role");
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
 
   return (
     <nav className={styles.navbar}>
@@ -56,6 +62,13 @@ export default function Navbar() {
             Deportes
           </a>
         </li>
+        {role === "Administrador" && (
+          <li>
+            <a href="#" onClick={handleLogout}>
+              Logout
+            </a>
+          </li>
+        )}
       </ul>
     </nav>
   );

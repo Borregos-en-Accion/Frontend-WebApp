@@ -33,16 +33,16 @@ const PLACES = [
   "Relevos",
 ];
 
-export default function Table() {
+export default function Table(props) {
+  const { day } = props;
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingMatch, setEditingMatch] = useState(null);
   const [sports, setSports] = useState([]);
   const [teams, setTeams] = useState([]);
-  const [divisions, setDivisions] = useState(DIVISIONS);
-  const [branches, setBranches] = useState(BRANCHES);
-  const [places, setPlaces] = useState(PLACES);
+
+  const role = localStorage.getItem("role");
 
   const [formData, setFormData] = useState({
     sport: "",
@@ -115,7 +115,6 @@ export default function Table() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
     setError(null);
 
@@ -124,6 +123,8 @@ export default function Table() {
     const url = editingMatch
       ? `${API_URL}/matches/${editingMatch._id}`
       : `${API_URL}/matches`;
+
+    formData.day = day;
 
     try {
       const response = await fetch(url, {
@@ -160,808 +161,255 @@ export default function Table() {
     setEditingMatch(null);
   };
 
-  if (loading) return <p className={styles.loading}>Cargando partidos...</p>;
-  if (error) return <p className={styles.error}>Error: {error}</p>;
+  const matchesForDay = matches.filter((match) => match.day === day);
+  const hasMatches = matchesForDay.length > 0;
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>
-        {editingMatch ? "Editar Partido" : "Agregar Partido"}
-      </h2>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <select
-          name="sport"
-          value={formData.sport}
-          onChange={handleChange}
-          required
-          aria-label="Deporte"
-          className={styles.form_input}
-        >
-          <option value="" disabled>
-            Selecciona un deporte
-          </option>
-          {sports.map((sport, index) => (
-            <option key={index} value={sport}>
-              {sport}
-            </option>
-          ))}
-        </select>
+      {role === "Administrador" && (
+        <>
+          <h2 className={styles.title}>
+            {editingMatch ? "Editar Partido" : "Agregar Partido"}
+          </h2>
 
-        <select
-          name="division"
-          value={formData.division}
-          onChange={handleChange}
-          required
-          aria-label="Deporte"
-          className={styles.form_input}
-        >
-          <option value="" disabled>
-            Selecciona una división
-          </option>
-          {divisions.map((division, index) => (
-            <option key={index} value={division}>
-              {division}
-            </option>
-          ))}
-        </select>
-
-        <select
-          name="teamOneName"
-          value={formData.teamOneName}
-          onChange={handleChange}
-          required
-          aria-label="Equipo 1"
-          className={styles.form_input}
-        >
-          <option value="" disabled>
-            Selecciona el Equipo 1
-          </option>
-          {teams.map((team, index) => (
-            <option key={index} value={team}>
-              {team}
-            </option>
-          ))}
-        </select>
-
-        <select
-          name="teamTwoName"
-          value={formData.teamTwoName}
-          onChange={handleChange}
-          required
-          aria-label="Equipo 2"
-          className={styles.form_input}
-        >
-          <option value="" disabled>
-            Selecciona el Equipo 2
-          </option>
-          {teams.map((team, index) => (
-            <option key={index} value={team}>
-              {team}
-            </option>
-          ))}
-        </select>
-
-        <select
-          name="branch"
-          value={formData.branch}
-          onChange={handleChange}
-          required
-          aria-label="Rama"
-          className={styles.form_input}
-        >
-          <option value="" disabled>
-            Selecciona la rama
-          </option>
-          {branches.map((branch, index) => (
-            <option key={index} value={branch}>
-              {branch}
-            </option>
-          ))}
-        </select>
-
-        <select
-          name="place"
-          value={formData.place}
-          onChange={handleChange}
-          required
-          aria-label="Cancha"
-          className={styles.form_input}
-        >
-          <option value="" disabled>
-            Selecciona la Cancha
-          </option>
-          {places.map((place, index) => (
-            <option key={index} value={place}>
-              {place}
-            </option>
-          ))}
-        </select>
-
-        <input
-          type="time"
-          name="startedAt"
-          value={formData.startedAt}
-          onChange={handleChange}
-          required
-          aria-label="Hora de inicio"
-          className={styles.form_input}
-        />
-
-        {editingMatch ? (
-          <select
-            name="whoWon"
-            value={formData.whoWon}
-            onChange={handleChange}
-            required
-            aria-label="Ganador"
-            className={styles.form_input}
-          >
-            <option value="" disabled>
-              Selecciona el ganador
-            </option>
-            <option value={formData.teamOneName}>{formData.teamOneName}</option>
-            <option value={formData.teamTwoName}>{formData.teamTwoName}</option>
-          </select>
-        ) : (
-          <input
-            name="whoWon"
-            placeholder="Ganador"
-            value={formData.whoWon}
-            onChange={handleChange}
-            aria-label="Ganador"
-            className={styles.form_input}
-            disabled
-          />
-        )}
-
-        <div className={styles.form_button_group}>
-          <button
-            type="submit"
-            disabled={loading}
-            className={styles.form_button}
-          >
-            {editingMatch ? "Actualizar" : "Agregar"}
-          </button>
-          {editingMatch && (
-            <button
-              type="button"
-              onClick={resetForm}
-              className={`${styles.form_button} ${styles.form_button_cancel}`}
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <select
+              name="sport"
+              value={formData.sport}
+              onChange={handleChange}
+              required
+              aria-label="Deporte"
+              className={styles.form_input}
             >
-              Cancelar
-            </button>
-          )}
-        </div>
-      </form>
+              <option value="" disabled>
+                Selecciona un deporte
+              </option>
+              {sports.map((sport, index) => (
+                <option key={index} value={sport}>
+                  {sport}
+                </option>
+              ))}
+            </select>
 
-      {/* <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches.map((match) => (
-              <tr key={match._id} className={styles.table_row}>
-                <td className={styles.table_cell}>{match.division}</td>
-                <td className={styles.table_cell}>{match.teamOneName}</td>
-                <td className={styles.table_cell}>vs</td>
-                <td className={styles.table_cell}>{match.teamTwoName}</td>
-                <td className={styles.table_cell}>{match.place}</td>
-                <td className={styles.table_cell}>{match.startedAt}</td>
-                <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                <td className={styles.table_cell}>
-                  <button
-                    onClick={() => handleEditClick(match)}
-                    className={styles.form_button}
-                  >
-                    Editar
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table> */}
+            <select
+              name="division"
+              value={formData.division}
+              onChange={handleChange}
+              required
+              aria-label="Deporte"
+              className={styles.form_input}
+            >
+              <option value="" disabled>
+                Selecciona una división
+              </option>
+              {DIVISIONS.map((division, index) => (
+                <option key={index} value={division}>
+                  {division}
+                </option>
+              ))}
+            </select>
 
-      {/* ====================================================================== */}
-      <h2 className={styles.title}>Torneo de Fútbol - Varonil</h2>
+            <select
+              name="teamOneName"
+              value={formData.teamOneName}
+              onChange={handleChange}
+              required
+              aria-label="Equipo 1"
+              className={styles.form_input}
+            >
+              <option value="" disabled>
+                Selecciona el Equipo 1
+              </option>
+              {teams.map((team, index) => (
+                <option key={index} value={team}>
+                  {team}
+                </option>
+              ))}
+            </select>
 
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches
-              .filter(
-                (match) =>
-                  match.sport === "Futbol" && match.branch === "Varonil"
-              )
-              .map((match) => (
-                <tr key={match._id} className={styles.table_row}>
-                  <td className={styles.table_cell}>{match.division}</td>
-                  <td className={styles.table_cell}>{match.teamOneName}</td>
-                  <td className={styles.table_cell}>vs</td>
-                  <td className={styles.table_cell}>{match.teamTwoName}</td>
-                  <td className={styles.table_cell}>{match.place}</td>
-                  <td className={styles.table_cell}>{match.startedAt}</td>
-                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                  <td className={styles.table_cell}>
-                    <button
-                      onClick={() => handleEditClick(match)}
-                      className={styles.form_button}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            <select
+              name="teamTwoName"
+              value={formData.teamTwoName}
+              onChange={handleChange}
+              required
+              aria-label="Equipo 2"
+              className={styles.form_input}
+            >
+              <option value="" disabled>
+                Selecciona el Equipo 2
+              </option>
+              {teams.map((team, index) => (
+                <option key={index} value={team}>
+                  {team}
+                </option>
+              ))}
+            </select>
 
+            <select
+              name="branch"
+              value={formData.branch}
+              onChange={handleChange}
+              required
+              aria-label="Rama"
+              className={styles.form_input}
+            >
+              <option value="" disabled>
+                Selecciona la rama
+              </option>
+              {BRANCHES.map((branch, index) => (
+                <option key={index} value={branch}>
+                  {branch}
+                </option>
+              ))}
+            </select>
 
-      {/* ====================================================================== */}
-      <br></br>
-      <h2 className={styles.title}>Torneo de Fútbol - Femenil</h2>
+            <select
+              name="place"
+              value={formData.place}
+              onChange={handleChange}
+              required
+              aria-label="Cancha"
+              className={styles.form_input}
+            >
+              <option value="" disabled>
+                Selecciona la Cancha
+              </option>
+              {PLACES.map((place, index) => (
+                <option key={index} value={place}>
+                  {place}
+                </option>
+              ))}
+            </select>
 
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches
-              .filter(
-                (match) =>
-                  match.sport === "Futbol" && match.branch === "Femenil"
-              )
-              .map((match) => (
-                <tr key={match._id} className={styles.table_row}>
-                  <td className={styles.table_cell}>{match.division}</td>
-                  <td className={styles.table_cell}>{match.teamOneName}</td>
-                  <td className={styles.table_cell}>vs</td>
-                  <td className={styles.table_cell}>{match.teamTwoName}</td>
-                  <td className={styles.table_cell}>{match.place}</td>
-                  <td className={styles.table_cell}>{match.startedAt}</td>
-                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                  <td className={styles.table_cell}>
-                    <button
-                      onClick={() => handleEditClick(match)}
-                      className={styles.form_button}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            <input
+              type="time"
+              name="startedAt"
+              value={formData.startedAt}
+              onChange={handleChange}
+              required
+              aria-label="Hora de inicio"
+              className={styles.form_input}
+            />
 
-      {/* ====================================================================== */}
-      <br></br>
-      <h2 className={styles.title}>Torneo de Basquetbol - Varonil</h2>
+            {editingMatch ? (
+              <select
+                name="whoWon"
+                value={formData.whoWon}
+                onChange={handleChange}
+                required
+                aria-label="Ganador"
+                className={styles.form_input}
+              >
+                <option value="" disabled>
+                  Selecciona el ganador
+                </option>
+                <option value={formData.teamOneName}>
+                  {formData.teamOneName}
+                </option>
+                <option value={formData.teamTwoName}>
+                  {formData.teamTwoName}
+                </option>
+              </select>
+            ) : (
+              <input
+                name="whoWon"
+                placeholder="Ganador"
+                value={formData.whoWon}
+                onChange={handleChange}
+                aria-label="Ganador"
+                className={styles.form_input}
+                disabled
+              />
+            )}
 
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches
-              .filter(
-                (match) =>
-                  match.sport === "Basquetbol" && match.branch === "Varonil"
-              )
-              .map((match) => (
-                <tr key={match._id} className={styles.table_row}>
-                  <td className={styles.table_cell}>{match.division}</td>
-                  <td className={styles.table_cell}>{match.teamOneName}</td>
-                  <td className={styles.table_cell}>vs</td>
-                  <td className={styles.table_cell}>{match.teamTwoName}</td>
-                  <td className={styles.table_cell}>{match.place}</td>
-                  <td className={styles.table_cell}>{match.startedAt}</td>
-                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                  <td className={styles.table_cell}>
-                    <button
-                      onClick={() => handleEditClick(match)}
-                      className={styles.form_button}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            <div className={styles.form_button_group}>
+              <button
+                type="submit"
+                disabled={loading}
+                className={styles.form_button}
+              >
+                {editingMatch ? "Actualizar" : "Agregar"}
+              </button>
+              {editingMatch && (
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className={`${styles.form_button} ${styles.form_button_cancel}`}
+                >
+                  Cancelar
+                </button>
+              )}
+            </div>
+          </form>
+        </>
+      )}
 
-      {/* ====================================================================== */}
-      <br></br>
-      <h2 className={styles.title}>Torneo de Basquetbol - Femenil</h2>
+      {loading && <p className={styles.loading}>Cargando partidos...</p>}
 
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches
-              .filter(
-                (match) =>
-                  match.sport === "Basquetbol" && match.branch === "Femenil"
-              )
-              .map((match) => (
-                <tr key={match._id} className={styles.table_row}>
-                  <td className={styles.table_cell}>{match.division}</td>
-                  <td className={styles.table_cell}>{match.teamOneName}</td>
-                  <td className={styles.table_cell}>vs</td>
-                  <td className={styles.table_cell}>{match.teamTwoName}</td>
-                  <td className={styles.table_cell}>{match.place}</td>
-                  <td className={styles.table_cell}>{match.startedAt}</td>
-                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                  <td className={styles.table_cell}>
-                    <button
-                      onClick={() => handleEditClick(match)}
-                      className={styles.form_button}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      {!hasMatches && (
+        <p className={styles.no_matches}>
+          No hay partidos programados para este día.
+        </p>
+      )}
 
-      {/* ====================================================================== */}
-      <br></br>
-      <h2 className={styles.title}>Torneo de Voleibol - Mixto</h2>
+      {sports.map((sport) =>
+        BRANCHES.map((branch) => {
+          const filteredMatches = matchesForDay.filter(
+            (match) => match.sport === sport && match.branch === branch
+          );
 
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches
-              .filter(
-                (match) =>
-                  match.sport === "Voleibol" && match.branch === "Mixto"
-              )
-              .map((match) => (
-                <tr key={match._id} className={styles.table_row}>
-                  <td className={styles.table_cell}>{match.division}</td>
-                  <td className={styles.table_cell}>{match.teamOneName}</td>
-                  <td className={styles.table_cell}>vs</td>
-                  <td className={styles.table_cell}>{match.teamTwoName}</td>
-                  <td className={styles.table_cell}>{match.place}</td>
-                  <td className={styles.table_cell}>{match.startedAt}</td>
-                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                  <td className={styles.table_cell}>
-                    <button
-                      onClick={() => handleEditClick(match)}
-                      className={styles.form_button}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+          if (filteredMatches.length === 0) return null;
 
-      {/* ====================================================================== */}
-      <br></br>
-      <h2 className={styles.title}>Torneo de Tennis - Mixto</h2>
-
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches
-              .filter(
-                (match) =>
-                  match.sport === "Tennis" && match.branch === "Mixto"
-              )
-              .map((match) => (
-                <tr key={match._id} className={styles.table_row}>
-                  <td className={styles.table_cell}>{match.division}</td>
-                  <td className={styles.table_cell}>{match.teamOneName}</td>
-                  <td className={styles.table_cell}>vs</td>
-                  <td className={styles.table_cell}>{match.teamTwoName}</td>
-                  <td className={styles.table_cell}>{match.place}</td>
-                  <td className={styles.table_cell}>{match.startedAt}</td>
-                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                  <td className={styles.table_cell}>
-                    <button
-                      onClick={() => handleEditClick(match)}
-                      className={styles.form_button}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
-      {/* ====================================================================== */}
-           <br></br>
-      <h2 className={styles.title}>Torneo de Jalón de Cuerda - Mixto</h2>
-
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches
-              .filter(
-                (match) =>
-                  match.sport === "Jalon de Cuerda" && match.branch === "Mixto"
-              )
-              .map((match) => (
-                <tr key={match._id} className={styles.table_row}>
-                  <td className={styles.table_cell}>{match.division}</td>
-                  <td className={styles.table_cell}>{match.teamOneName}</td>
-                  <td className={styles.table_cell}>vs</td>
-                  <td className={styles.table_cell}>{match.teamTwoName}</td>
-                  <td className={styles.table_cell}>{match.place}</td>
-                  <td className={styles.table_cell}>{match.startedAt}</td>
-                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                  <td className={styles.table_cell}>
-                    <button
-                      onClick={() => handleEditClick(match)}
-                      className={styles.form_button}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
-      {/* ====================================================================== */}
-            <br></br>
-      <h2 className={styles.title}>Torneo de Quemados - Mixto</h2>
-
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches
-              .filter(
-                (match) =>
-                  match.sport === "Quemados" && match.branch === "Mixto"
-              )
-              .map((match) => (
-                <tr key={match._id} className={styles.table_row}>
-                  <td className={styles.table_cell}>{match.division}</td>
-                  <td className={styles.table_cell}>{match.teamOneName}</td>
-                  <td className={styles.table_cell}>vs</td>
-                  <td className={styles.table_cell}>{match.teamTwoName}</td>
-                  <td className={styles.table_cell}>{match.place}</td>
-                  <td className={styles.table_cell}>{match.startedAt}</td>
-                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                  <td className={styles.table_cell}>
-                    <button
-                      onClick={() => handleEditClick(match)}
-                      className={styles.form_button}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
-            {/* ====================================================================== */}
-            <br></br>
-      <h2 className={styles.title}>Torneo de Relevos - Mixto</h2>
-
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches
-              .filter(
-                (match) =>
-                  match.sport === "Relevos" && match.branch === "Mixto"
-              )
-              .map((match) => (
-                <tr key={match._id} className={styles.table_row}>
-                  <td className={styles.table_cell}>{match.division}</td>
-                  <td className={styles.table_cell}>{match.teamOneName}</td>
-                  <td className={styles.table_cell}>vs</td>
-                  <td className={styles.table_cell}>{match.teamTwoName}</td>
-                  <td className={styles.table_cell}>{match.place}</td>
-                  <td className={styles.table_cell}>{match.startedAt}</td>
-                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                  <td className={styles.table_cell}>
-                    <button
-                      onClick={() => handleEditClick(match)}
-                      className={styles.form_button}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
-
-            {/* ====================================================================== */}
-            <br></br>
-      <h2 className={styles.title}>Torneo de Mario Kart - Mixto</h2>
-
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches
-              .filter(
-                (match) =>
-                  match.sport === "Mario Kart" && match.branch === "Mixto"
-              )
-              .map((match) => (
-                <tr key={match._id} className={styles.table_row}>
-                  <td className={styles.table_cell}>{match.division}</td>
-                  <td className={styles.table_cell}>{match.teamOneName}</td>
-                  <td className={styles.table_cell}>vs</td>
-                  <td className={styles.table_cell}>{match.teamTwoName}</td>
-                  <td className={styles.table_cell}>{match.place}</td>
-                  <td className={styles.table_cell}>{match.startedAt}</td>
-                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                  <td className={styles.table_cell}>
-                    <button
-                      onClick={() => handleEditClick(match)}
-                      className={styles.form_button}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
-
-            {/* ====================================================================== */}
-            <br></br>
-      <h2 className={styles.title}>Torneo de Just Dance - Mixto</h2>
-
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.table_header_row}>
-            <th className={styles.table_header}>Grupo</th>
-            <th className={styles.table_header}>Equipo 1</th>
-            <th className={styles.table_header}>vs</th>
-            <th className={styles.table_header}>Equipo 2</th>
-            <th className={styles.table_header}>Cancha</th>
-            <th className={styles.table_header}>Hora</th>
-            <th className={styles.table_header}>Ganador</th>
-            <th className={styles.table_header}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.length > 0 ? (
-            matches
-              .filter(
-                (match) =>
-                  match.sport === "Just Dance" && match.branch === "Mixto"
-              )
-              .map((match) => (
-                <tr key={match._id} className={styles.table_row}>
-                  <td className={styles.table_cell}>{match.division}</td>
-                  <td className={styles.table_cell}>{match.teamOneName}</td>
-                  <td className={styles.table_cell}>vs</td>
-                  <td className={styles.table_cell}>{match.teamTwoName}</td>
-                  <td className={styles.table_cell}>{match.place}</td>
-                  <td className={styles.table_cell}>{match.startedAt}</td>
-                  <td className={styles.table_cell}>{match.whoWon ?? "..."}</td>
-                  <td className={styles.table_cell}>
-                    <button
-                      onClick={() => handleEditClick(match)}
-                      className={styles.form_button}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan="8" className={styles.noMatches}>
-                No hay partidos disponibles.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+          return (
+            <div key={`${sport}-${branch}`}>
+              <h2 className={styles.title}>
+                Torneo de {sport} - {branch}
+              </h2>
+              <table className={styles.table}>
+                <thead>
+                  <tr className={styles.table_header_row}>
+                    <th className={styles.table_header}>Grupo</th>
+                    <th className={styles.table_header}>Equipo 1</th>
+                    <th className={styles.table_header}>vs</th>
+                    <th className={styles.table_header}>Equipo 2</th>
+                    <th className={styles.table_header}>Cancha</th>
+                    <th className={styles.table_header}>Hora</th>
+                    <th className={styles.table_header}>Ganador</th>
+                    {role === "Administrador" && (
+                      <th className={styles.table_header}>Acciones</th>
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredMatches.map((match) => (
+                    <tr key={match._id} className={styles.table_row}>
+                      <td className={styles.table_cell}>{match.division}</td>
+                      <td className={styles.table_cell}>{match.teamOneName}</td>
+                      <td className={styles.table_cell}>vs</td>
+                      <td className={styles.table_cell}>{match.teamTwoName}</td>
+                      <td className={styles.table_cell}>{match.place}</td>
+                      <td className={styles.table_cell}>{match.startedAt}</td>
+                      <td className={styles.table_cell}>
+                        {match.whoWon ?? "..."}
+                      </td>
+                      {role === "Administrador" && (
+                        <td className={styles.table_cell}>
+                          <button
+                            onClick={() => handleEditClick(match)}
+                            className={styles.form_button}
+                          >
+                            Editar
+                          </button>
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        })
+      )}
     </div>
   );
 }

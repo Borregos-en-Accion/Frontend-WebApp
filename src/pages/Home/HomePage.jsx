@@ -12,7 +12,7 @@ export default function HomePage() {
             className={`${styles.logo}`}
           />
 
-          <Link to="/tournament" className={styles.login_button}>
+          <Link to="/home" className={styles.login_button}>
             Ver Torneo
           </Link>
 

@@ -1,17 +1,46 @@
 import React, { useState } from "react";
 import styles from "./Login.module.css";
+import { useNavigate } from "react-router-dom";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      window.location.href = "/equipos";
+      const response = await fetch(`${API_URL}/users/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: username,
+          password: password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+
+      if (data) {
+        localStorage.setItem("user", data.data.name);
+        localStorage.setItem("role", data.data.role);
+
+        navigate("/equipos");
+      } else {
+        alert("Credenciales incorrectas");
+      }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
+      alert("Error al iniciar sesión");
     } finally {
       setLoading(false);
     }
@@ -36,6 +65,8 @@ export default function LoginPage() {
             placeholder="Usuario"
             className={styles.input_field}
             required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
 
           <label htmlFor="password" className={styles.label}>
@@ -47,6 +78,8 @@ export default function LoginPage() {
             placeholder="Contraseña"
             className={styles.input_field}
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <button
