@@ -1,5 +1,6 @@
 import styles from "./Home.module.css";
 import { Link } from "react-router-dom";
+import logo from '../../assets/logo.png';
 
 export default function HomePage() {
   return (
@@ -7,7 +8,7 @@ export default function HomePage() {
       <main className={`${styles.container}`}>
         <div className={`${styles.login_box}`}>
           <img
-            src="src/assets/logo_chico.png"
+            src={logo} 
             alt="Borregos en Accion Logo"
             className={`${styles.logo}`}
           />

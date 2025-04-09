@@ -361,7 +361,8 @@ export default function Table(props) {
           if (filteredMatches.length === 0) return null;
 
           return (
-            <div key={`${sport}-${branch}`}>
+            <div key={`${sport}-${branch}`} >
+              
               <h2 className={styles.title}>
                 Torneo de {sport} - {branch}
               </h2>
@@ -406,6 +407,7 @@ export default function Table(props) {
                   ))}
                 </tbody>
               </table>
+             
             </div>
           );
         })

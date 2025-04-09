@@ -10,7 +10,7 @@ export default function SecondDayPage() {
 
       <div className={styles.container}>
         {/* Título centrado */}
-        <h1 className={styles.title}>Borregos en Acción: Segundo Dia</h1>
+        <h1 className={styles.title}>Borregos en Acción: Segundo Día</h1>
 
         {/* Subtítulo centrado */}
         <div className={styles.subtitle}>

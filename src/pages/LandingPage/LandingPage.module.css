@@ -2,7 +2,8 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 6rem 6rem 4rem 4rem;
+    /* padding: 6rem 6rem 4rem 4rem; */
+    padding:  2rem 2rem 3rem;
     gap: 2rem;
     flex-wrap: wrap;
     background-image: url('../../assets/FondoDegradado.png');
@@ -55,7 +56,7 @@
     font-size: 2.8rem;
     color: white;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    margin-top: -3.5rem;
+    /* margin-top: -3.5rem; */
   }
   
   .textBox {
