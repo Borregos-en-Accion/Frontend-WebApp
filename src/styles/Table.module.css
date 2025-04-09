@@ -1,3 +1,14 @@
+/* .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f0f4ff;
+} */
+
+
+
 .title{
   font-size: 24px;
   font-weight: bold;
@@ -11,11 +22,13 @@
   border: 1px solid #001f5b;
   background-color: #ffffff;
   width: 100%;
-  text-align: left;
+  text-align: center;
   border-collapse: collapse;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 1rem;
 }
+
+
 
 
 .table_cell,
@@ -63,13 +76,23 @@
   margin-top: 1rem;
 }
 
+/* Formulario */
 .form {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   padding-top: 1rem;
   margin-bottom: 2rem;
+    width: 90%;
+  /* Ajustar la anchura de la tabla */
+  max-width: auto;
+  /* No permitir que se haga demasiado ancha */
+  overflow-x: auto;
+  
+  
 }
+
+
 
 .form_input {
   padding: 10px;

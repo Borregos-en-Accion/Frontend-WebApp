@@ -62,8 +62,10 @@ p {
 .tableContainer {
     width: 90%;
     /* Ajustar la anchura de la tabla */
-    max-width: 800px;
+    max-width: auto;
     /* No permitir que se haga demasiado ancha */
     overflow-x: auto;
     /* Permitir desplazamiento horizontal si es necesario */
+    
+    
 }
